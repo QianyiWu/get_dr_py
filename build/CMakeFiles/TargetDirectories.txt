@@ -1,0 +1,5 @@
+/home/qianyi/get_mesh_py/build/CMakeFiles/edit_cache.dir
+/home/qianyi/get_mesh_py/build/CMakeFiles/rebuild_cache.dir
+/home/qianyi/get_mesh_py/build/CMakeFiles/get_mesh.dir
+/home/qianyi/get_mesh_py/build/pybind11/CMakeFiles/edit_cache.dir
+/home/qianyi/get_mesh_py/build/pybind11/CMakeFiles/rebuild_cache.dir

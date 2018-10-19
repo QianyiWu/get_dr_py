@@ -1,0 +1,1 @@
+/usr/bin/c++  -fPIC  -O3 -w -shared -std=c++11  -shared  -o get_mesh.cpython-36m-x86_64-linux-gnu.so CMakeFiles/get_mesh.dir/get_mesh.cpp.o -flto -lOpenMeshCore -lOpenMeshTools 
