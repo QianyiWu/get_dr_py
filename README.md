@@ -23,7 +23,7 @@ The <a href='https://github.com/QianyiWu/get_dr_py/blob/master/test.py'>test.py<
 Currently we have fully tested this package on Ubuntu 16.04 LTS environment. Windows and MacOS are not ensured working.
 
 # Citation
-Please cite the following papers if this dataset helps your research: 
+Please cite the following papers if it helps your research: 
 
 Disentangled Representation Learning for 3D Face Shape
 
@@ -46,9 +46,9 @@ Disentangled Representation Learning for 3D Face Shape
 
 <a href="https://arxiv.org/abs/1803.06802v2">Alive Caricature from 2D to 3D</a>
 
-    @article{wu2018alive
-          title={Alive Caricature from 2D to 3D},
-          author={Wu, Qianyi and Zhang, Juyong and Lai, Yu-Kun and Zheng, Jianmin and Cai, Jianfei}
-          booktitle={IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
-          year={2019},
+    @inproceedings{wu2018alive,
+      title={Alive Caricature from 2D to 3D},
+      author={Wu, Qianyi and Zhang, Juyong and Lai, Yu-Kun and Zheng, Jianmin and Cai, Jianfei},
+      booktitle={IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+      year={2018},
     }
