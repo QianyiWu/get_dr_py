@@ -65,9 +65,6 @@ void DR_feature::read_ref_mesh(std::string ref_mesh_name){
         std::cout<<"read_ref_mesh_ : read file wrong!!!"<<std::endl;
         return ;
     }
-    // std::cout<<"Vertex Number: "<<ref_mesh_.n_vertices()<<std::endl;
-    // std::cout<<"HalfEdge Number: "<<ref_mesh_.n_halfedges()<<std::endl;
-    // Mesh read
 
     compute_ref_LB_weight();
 }
@@ -96,10 +93,8 @@ void DR_feature::compute_ref_LB_weight(){
             d0 = (p0-p2).normalize();
             d1 = (p1-p2).normalize();
             w += 2.0 / tan(acos(std::min(0.99, std::max(-0.99, (d0|d1)))));
-//            w = std::max(0.0, w);//w小于0的时候还要仔细思考一下怎么处理
-//            w += 2.0 / tan(acos(std::max(-0.99, std::min(0.99, dot(d0,d1) ))));
-//            w = std::max(0.0, w);//w小于0的时候还要仔细思考一下怎么处理
-//            std::cout<<"weight: "<<w<<std::endl;
+            w = std::max(0.0, w);
+
             if(std::isnan(w))
                 std::cout<<"Some weight NAN"<<std::endl;
             ref_mesh_.property(LB_weights,e_it) = w;
@@ -127,8 +122,7 @@ void DR_feature::compute_ref_LB_weight(){
 
         if(std::isnan(w))
             std::cout<<"Some weight is NAN"<<std::endl;
-//        w = std::max(0.0, w);//w小于0的时候还要仔细思考一下怎么处理
-//        std::cout<<"weight: "<<w<<std::endl;
+        w = std::max(0.0, w);
         ref_mesh_.property(LB_weights,e_it) = w;
     }
 }
@@ -160,7 +154,7 @@ void DR_feature::read_defor_mesh(std::string _filename){
         {
             if(v01!=v11||v02!=v12)
             {
-                std::cout<<"RIMD defor and ref are not compatible!!!"<<std::endl;
+                std::cout<<"defor and ref are not compatible!!!"<<std::endl;
                 return;
             }
         }
@@ -168,7 +162,7 @@ void DR_feature::read_defor_mesh(std::string _filename){
         {
             if(v01!=v12||v02!=v10)
             {
-                std::cout<<"RIMD defor and ref are not compatible!!!"<<std::endl;
+                std::cout<<"defor and ref are not compatible!!!"<<std::endl;
                 return;
             }
         }
@@ -176,25 +170,24 @@ void DR_feature::read_defor_mesh(std::string _filename){
         {
             if(v01!=v10||v02!=v11)
             {
-                std::cout<<"RIMD defor and ref are not compatible!!!"<<std::endl;
+                std::cout<<"defor and ref are not compatible!!!"<<std::endl;
                 return;
             }
         }
         else
         {
-            std::cout<<"RIMD defor and ref are not compatible!!!"<<std::endl;
+            std::cout<<"defor and ref are not compatible!!!"<<std::endl;
             return;
         }
     }
 
     TriMesh::VertexIter v_it, v_to_it;
-    // 这里要求ref和defor的网格不仅拓扑一致，顶点的顺序也是要对应好的
     for(v_it=ref_mesh_.vertices_begin(),v_to_it=defor_mesh_.vertices_begin()
         ;v_it!=ref_mesh_.vertices_end()&&v_to_it!=defor_mesh_.vertices_end()
         ;v_it++,v_to_it++)
     {
         if((*v_it).idx()!=(*v_to_it).idx())
-            std::cout<<"RIMD::compute_ref_to_defor_Tmatrixs different topology!!!"<<std::endl;
+            std::cout<<"DR_feature::compute_ref_to_defor_Tmatrixs different topology!!!"<<std::endl;
         compute_Ti(*v_it,*v_to_it);
     }
 
@@ -217,12 +210,11 @@ void DR_feature::compute_Ti(TriMesh::VertexHandle v_it, TriMesh::VertexHandle v_
     TriMesh::Point tp0,tp1;
     tp0 = ref_mesh_.point(v_it); tp1 = ref_mesh_.point(test_v);
     double scale=1.0;
-    if(((tp0[0]-tp1[0])*(tp0[0]-tp1[0])+(tp0[1]-tp1[1])*(tp0[1]-tp1[1])+(tp0[2]-tp1[2])*(tp0[2]-tp1[2]))<0.01)
-        scale = 100000;
+    if(((tp0[0]-tp1[0])*(tp0[0]-tp1[0])+(tp0[1]-tp1[1])*(tp0[1]-tp1[1])+(tp0[2]-tp1[2])*(tp0[2]-tp1[2]))<0.1)
+        scale = 100;
 
     for(;veiter.is_valid();veiter++)
     {
-//        double weight = ref_mesh_.property(LB_weights,(*veiter));
         double weight = 1.0;
         int to_id;
         TriMesh::VertexHandle to_v=ref_mesh_.to_vertex_handle(ref_mesh_.halfedge_handle(*veiter, 0));
@@ -264,7 +256,6 @@ void DR_feature::compute_Ti(TriMesh::VertexHandle v_it, TriMesh::VertexHandle v_
                 S_inv(i,i)=0.0;
         }
         T = L*V*S_inv*U.transpose();
-//        std::cout<<"T "<<(v_it).idx()<<" is singular, use pseudo inverse to computation!"<<std::endl;
     }
     defor_mesh_.property(T_matrixs,v_it) = T;
 }
@@ -314,7 +305,6 @@ py::array_t<double> get_dr(std::string ref_mesh_name, std::string defor_mesh_nam
 
     std::memcpy(result_ptr, temp.data(), temp.size()*sizeof(double));
 
-    // std::cout<<result[0]<<std::endl;
     return result;
 
 }
