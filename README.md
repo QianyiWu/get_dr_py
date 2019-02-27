@@ -25,7 +25,7 @@ Currently we have fully tested this package on Ubuntu 16.04 LTS environment. Win
 # Citation
 Please cite the following papers if it helps your research: 
 
-<a href="https://arxiv.org/abs/1902.09887>"Disentangled Representation Learning for 3D Face Shape</a>
+<a href="https://arxiv.org/abs/1902.09887">Disentangled Representation Learning for 3D Face Shape</a>
 
     @inproceedings{Jiang2019Disentangled
           title={Disentangled Representation Learning for 3D Face Shape},
