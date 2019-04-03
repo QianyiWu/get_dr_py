@@ -8,6 +8,10 @@ This package depends on <a href='https://www.openmesh.org'>OpenMesh</a> and <a h
 
 # Usage
 We recommend to use cmake to compile this package and a python API will be automatically created to compute DR features.
+```
+git clone --recursive https://github.com/QianyiWu/get_dr_py.git
+cd get_dr_py
+```
 
 After obtaining this repository, run the following code in the repository path:
 ```
